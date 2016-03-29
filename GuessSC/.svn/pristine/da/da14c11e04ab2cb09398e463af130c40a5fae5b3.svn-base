@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige"
+    android:orientation="vertical" >
+
+    <!-- 导航栏 -->
+
+    <include 
+       	layout="@layout/layout_navigation_bar"/>
+    
+    <EditText 
+        android:id="@+id/ticking_content"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:maxHeight="250dp"
+        android:minHeight="150dp"
+        android:gravity="top"
+        android:padding="5dp"
+        android:background="@drawable/login_bg2x"
+        android:hint="用得不爽尽情吐槽,丰厚的大奖等你来拿哟!"/>
+    <Button 
+        android:id="@+id/ticking_send"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="发送"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/cmark_exchange_btn"/>
+
+</LinearLayout>

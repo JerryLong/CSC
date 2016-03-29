@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    android:background="#fff"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:id="@+id/square_detail_llt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/square_detail_question_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="猜猜这是哪里?"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#ccc" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="参与人数: "
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/square_detail_join_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="56"
+                    android:textColor="#fd9034"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.04"
+                android:background="#ccc" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="总金币: "
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/square_detail_join_gold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="56"
+                    android:textColor="#fd9034"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.04"
+                android:background="#ccc" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="截止:"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/square_detail_join_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="已结束"
+                    android:textColor="#fd9034"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/square_detail_rlt1"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="5dp"
+            android:visibility="gone"
+            android:background="@drawable/x"
+            android:padding="5dp" >
+
+            <ImageView
+                android:id="@+id/square_detail_anwser_order1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_anwser_a2x" />
+
+            <TextView
+                android:id="@+id/square_detail_anwser_name1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/square_detail_llt1"
+                android:layout_toRightOf="@+id/square_detail_anwser_order1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"/>
+
+            <LinearLayout
+                android:id="@+id/square_detail_llt1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"
+                android:layout_toLeftOf="@+id/square_detail_arrow"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/square_detail_my_bet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/square_detail_all_bet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/square_detail_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_arrow2x" />
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/square_detail_rlt2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="5dp"
+            android:visibility="gone"
+            android:background="@drawable/x"
+            android:padding="5dp" >
+
+            <ImageView
+                android:id="@+id/square_detail_anwser_order2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_anwser_b2x" />
+
+            <TextView
+                android:id="@+id/square_detail_anwser_name2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/square_detail_llt2"
+                android:layout_toRightOf="@+id/square_detail_anwser_order2"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"/>
+
+            <LinearLayout
+                android:id="@+id/square_detail_llt2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"
+                android:layout_toLeftOf="@+id/square_detail_arrow2"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/square_detail_my_bet2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/square_detail_all_bet2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/square_detail_arrow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_arrow2x" />
+        </RelativeLayout>
+        
+        
+        <RelativeLayout
+            android:id="@+id/square_detail_rlt3"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="5dp"
+            android:visibility="gone"
+            android:background="@drawable/x"
+            android:padding="5dp" >
+
+            <ImageView
+                android:id="@+id/square_detail_anwser_order3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_anwser_c2x" />
+
+            <TextView
+                android:id="@+id/square_detail_anwser_name3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/square_detail_llt3"
+                android:layout_toRightOf="@+id/square_detail_anwser_order3"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"/>
+
+            <LinearLayout
+                android:id="@+id/square_detail_llt3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"
+                android:layout_toLeftOf="@+id/square_detail_arrow3"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/square_detail_my_bet3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/square_detail_all_bet3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/square_detail_arrow3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_arrow2x" />
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/square_detail_rlt4"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="5dp"
+            android:visibility="gone"
+            android:background="@drawable/x"
+            android:padding="5dp" >
+
+            <ImageView
+                android:id="@+id/square_detail_anwser_order4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_anwser_d2x" />
+
+            <TextView
+                android:id="@+id/square_detail_anwser_name4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/square_detail_llt4"
+                android:layout_toRightOf="@+id/square_detail_anwser_order4"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true" />
+
+            <LinearLayout
+                android:id="@+id/square_detail_llt4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"
+                android:layout_toLeftOf="@+id/square_detail_arrow4"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/square_detail_my_bet4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/square_detail_all_bet4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/square_detail_arrow4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_arrow2x" />
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/square_detail_rlt5"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="5dp"
+            android:visibility="gone"
+            android:background="@drawable/x"
+            android:padding="5dp" >
+
+            <ImageView
+                android:id="@+id/square_detail_anwser_order5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_anwser_e2x" />
+
+            <TextView
+                android:id="@+id/square_detail_anwser_name5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/square_detail_llt5"
+                android:layout_toRightOf="@+id/square_detail_anwser_order5"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true" />
+
+            <LinearLayout
+                android:id="@+id/square_detail_llt5"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"
+                android:layout_toLeftOf="@+id/square_detail_arrow5"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/square_detail_my_bet5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/square_detail_all_bet5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/square_detail_arrow5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_arrow2x" />
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/square_detail_rlt6"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="5dp"
+            android:visibility="gone"
+            android:background="@drawable/x"
+            android:padding="5dp" >
+
+            <ImageView
+                android:id="@+id/square_detail_anwser_order6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_anwser_f2x" />
+
+            <TextView
+                android:id="@+id/square_detail_anwser_name6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/square_detail_llt6"
+                android:layout_toRightOf="@+id/square_detail_anwser_order6"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true" />
+
+            <LinearLayout
+                android:id="@+id/square_detail_llt6"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"
+                android:layout_toLeftOf="@+id/square_detail_arrow6"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/square_detail_my_bet6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/square_detail_all_bet6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/square_detail_arrow6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/square_detail_arrow2x" />
+        </RelativeLayout>
+		<LinearLayout 
+		    android:id="@+id/square_detail_show_result"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical"
+		    android:layout_margin="5dp">
+		    <TextView 
+		        android:id="@+id/square_detail_result"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textSize="16sp"
+		        android:layout_gravity="center_horizontal"
+		        android:textColor="#ff6666"/>
+		    <TextView 
+		        android:id="@+id/square_detail_show_answer"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:textSize="16sp"
+		        android:layout_gravity="center_horizontal"/>
+		</LinearLayout>
+        
+    </LinearLayout>
+
+</ScrollView>

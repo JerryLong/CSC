@@ -1,0 +1,108 @@
+package com.example.imagecache;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import android.graphics.Bitmap;
+import android.util.Log;
+/**
+ * 图片的内存缓存类
+ * @author YXC
+ *
+ */
+public class MemoryCache {  
+	  
+    private static final String TAG = "MemoryCache";  
+    // 以键值对存储图片的Map
+    private Map<String, Bitmap> cache = Collections  
+            .synchronizedMap(new LinkedHashMap<String, Bitmap>(10, 1.5f, true));  
+    // 当前内存大小
+    private long size = 0;// current allocated size  
+    // 最大内存
+    private long limit = 1000000;// max memory in bytes  
+  
+    public MemoryCache() {  
+        // use 25% of available heap size  
+        setLimit(Runtime.getRuntime().maxMemory() / 4);  
+    }  
+  
+    /**
+     * 为内存缓存设置最大内存限制
+     * @param new_limit
+     */
+    public void setLimit(long new_limit) {   
+        limit = new_limit;   
+    }  
+  
+    /**
+     * 根据键返回图片
+     * @param id
+     * @return
+     */
+    public Bitmap get(String id) {  
+        try {  
+            if (!cache.containsKey(id))  
+                return null;  
+            return cache.get(id);  
+        } catch (NullPointerException ex) {  
+            return null;  
+        }  
+    }  
+  
+    /**
+     * 以键值对的形式存储图片到内存缓存
+     * @param id
+     * @param bitmap
+     */
+    public void put(String id, Bitmap bitmap) {  
+        try {  
+            if (cache.containsKey(id))  
+                size -= getSizeInBytes(cache.get(id));  
+            cache.put(id, bitmap);  
+            size += getSizeInBytes(bitmap);  
+            checkSize();  
+        } catch (Throwable th) {  
+            th.printStackTrace();  
+        }  
+    }  
+  
+    /** 
+     * 检查当前内存缓存量是否超过最大缓存限制
+     *  
+     */  
+    private void checkSize() {  
+        Log.i(TAG, "cache size=" + size + " length=" + cache.size());  
+        if (size > limit) {  
+            Iterator<Entry<String, Bitmap>> iter = cache.entrySet().iterator();  
+            while (iter.hasNext()) {  
+                Entry<String, Bitmap> entry = iter.next();  
+                size -= getSizeInBytes(entry.getValue());  
+                iter.remove();  
+                if (size <= limit)  
+                    break;  
+            }  
+        }  
+    }  
+  
+    /**
+     * 清空内存缓存
+     */
+    public void clear() {  
+        cache.clear();  
+    }  
+  
+    /** 
+     * 返回制定图片的大小
+     *  
+     * @param bitmap 
+     * @return 
+     */  
+    long getSizeInBytes(Bitmap bitmap) {  
+        if (bitmap == null)  
+            return 0;  
+        return bitmap.getRowBytes() * bitmap.getHeight();  
+    }  
+}  

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+        <ImageView 
+	        android:id="@+id/item_user_question_picture"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:src="@drawable/download_failed"
+	        android:scaleType="fitXY"
+	        android:contentDescription="@string/action_settings"/>
+	    <TextView 
+	        android:id="@+id/item_user_question_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="14sp"
+	        android:textColor="#fff"
+			android:layout_gravity="bottom"
+			android:layout_marginLeft="10dp"
+			android:layout_marginBottom="5dp"
+			android:text="猜猜这是哪里"/>
+    </FrameLayout>
+    
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="40dp">
+	    <com.guess.myview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/item_user_question_avatar"
+                android:layout_alignParentLeft="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/default_avatar3x"
+                app:border_color="#ffffff"
+                app:border_width="0dp" />
+	    <TextView 
+	        android:id="@+id/item_user_question_nickname"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_toRightOf="@+id/item_user_question_avatar"
+	        android:layout_toLeftOf="@+id/item_user_question_love"
+	        android:singleLine="true"
+	        android:text="jimojimo就好"
+	        android:textSize="12sp"
+	        android:textColor="#000"/>
+	    <TextView 
+	        android:id="@+id/item_user_question_love"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:textSize="14sp"
+	        android:text="25"
+	        android:padding="0dp"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="5dp"
+	        android:drawableLeft="@drawable/user_question_like2x"
+	        android:gravity="center_vertical"
+	        android:drawablePadding="5dp"
+	        android:textColor="#000"/>
+	</RelativeLayout>
+</LinearLayout>

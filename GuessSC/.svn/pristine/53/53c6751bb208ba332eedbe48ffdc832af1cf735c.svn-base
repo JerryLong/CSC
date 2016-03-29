@@ -1,0 +1,127 @@
+package com.guess.picture_pick;
+
+import java.util.List;
+
+import com.cdrongyao.caisichuan.R;
+import com.guess.picture_pick.PictureLoader.Type;
+import com.guess.tools.BaseTools;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
+public class MyPictureAdapter extends BaseAdapter{
+	
+	private Context mContext;
+	
+	private List<String> data;
+	
+	private String mDirPath;
+	
+	private String clickName = "";
+	
+	private ImageButton preSelect;
+	private ImageView preImage;
+
+	public MyPictureAdapter(Context context, List<String> list, String dirPath) {
+		this.mContext = context;
+		this.mDirPath = dirPath;
+		this.data = list;
+	}
+	@Override
+	public int getCount() {
+	
+		return data.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return data.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		View view = null;
+		ViewHolder viewHolder = new ViewHolder();
+		if(convertView == null){
+			view = BaseTools.getView(mContext, R.layout.picture_grid_item);
+			
+			ImageView imgPicture = (ImageView) view.findViewById(R.id.id_item_image);
+			ImageButton btnSelect = (ImageButton) view.findViewById(R.id.id_item_select);
+			
+			viewHolder.imgPicture = imgPicture;
+			viewHolder.btnSelect = btnSelect;
+			view.setTag(viewHolder);
+		}else{
+			view = convertView;
+			viewHolder = (ViewHolder) view.getTag();
+		}
+		final String fileName = data.get(position);
+		PictureLoader.getInstance(3,Type.LIFO).loadImage(mDirPath + "/" + fileName, viewHolder.imgPicture);
+		
+		final ImageView picture = viewHolder.imgPicture;
+		final ImageButton select = viewHolder.btnSelect;
+		
+		if(fileName.equals(clickName)){
+			select.setVisibility(View.VISIBLE);
+			picture.setColorFilter(Color.parseColor("#77000000"));
+			if(position != 0){
+				preImage = picture;
+				preSelect = select;
+			}
+		}else{
+			select.setVisibility(View.GONE);
+			picture.setColorFilter(null);
+		}
+		
+		
+		//设置ImageView的点击事件
+		picture.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				clickName = fileName;
+				select.setVisibility(View.VISIBLE);
+				picture.setColorFilter(Color.parseColor("#77000000"));
+				if((preSelect != null) && (preSelect != select)){
+					preSelect.setVisibility(View.GONE);
+				}
+				if((preImage != null) && (preImage != picture)){
+					preImage.setColorFilter(null);
+				}
+				preImage = picture;
+				preSelect = select;
+			}
+		});
+		
+		
+		return view;
+	}
+	
+	class ViewHolder{
+		public ImageView imgPicture;
+		public ImageButton btnSelect;
+	}
+	
+	/**
+	 * 返回当前选择图片的路径
+	 * @return
+	 */
+	public String getPicturePath(){
+		if(!"".equals(clickName)){
+			return mDirPath + "/" + clickName;
+		}
+		return clickName;
+	}
+}

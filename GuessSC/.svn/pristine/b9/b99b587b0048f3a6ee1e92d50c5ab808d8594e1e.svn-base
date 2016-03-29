@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <com.guess.myview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/menu_img_avatar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/action_settings"
+            android:src="@drawable/default_avatar3x"
+            app:border_color="#ffffff"
+            app:border_width="1dp" />
+
+        <TextView
+            android:id="@+id/menu_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/menu_layout_one"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:gravity="center_horizontal" >
+
+        <ImageView
+            android:id="@+id/menu_image_one"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/action_settings"
+            android:gravity="center_vertical"
+            android:src="@drawable/cehua_daren2x" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/menu_image_one"
+            android:gravity="center_vertical"
+            android:text="四川达人"
+            android:textColor="#fff"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/menu_layout_two"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/menu_image_two"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/action_settings"
+            android:gravity="center_vertical"
+            android:src="@drawable/cehua_prize2x" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/menu_image_two"
+            android:gravity="center_vertical"
+            android:text="官方活动"
+            android:textColor="#fff"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/menu_layout_three"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/menu_image_three"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/action_settings"
+            android:gravity="center_vertical"
+            android:src="@drawable/cehua_mall2x" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/menu_image_three"
+            android:gravity="center_vertical"
+            android:text="猜  商  城"
+            android:textColor="#fff"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/menu_layout_four"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/menu_image_four"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/action_settings"
+            android:gravity="center_vertical"
+            android:src="@drawable/cehua_square2x" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/menu_image_four"
+            android:gravity="center_vertical"
+            android:text="竞猜广场"
+            android:textColor="#fff"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+</LinearLayout>

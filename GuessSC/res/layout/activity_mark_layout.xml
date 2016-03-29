@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige" >
+    
+    <include 
+        android:id="@+id/cmark_top"
+        layout="@layout/layout_navigation_bar"/>
+
+    <com.guess.myview.XListView
+        android:id="@+id/cmark_listview"
+        android:layout_below="@+id/cmark_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:divider="@color/whitesmoke"
+        android:dividerHeight="5dp"
+        android:visibility="gone" >
+    </com.guess.myview.XListView>
+
+</RelativeLayout>

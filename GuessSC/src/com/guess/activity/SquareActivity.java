@@ -1,0 +1,445 @@
+package com.guess.activity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.cdrongyao.caisichuan.R;
+import com.android.volley.VolleyError;
+import com.guess.myadapter.MySquareAdapter;
+import com.guess.myutils.ApplicationUtil;
+import com.guess.myutils.Constant;
+import com.guess.myutils.LoginUtil;
+import com.guess.myutils.MyJsonRequest;
+import com.guess.myutils.MyNetManager;
+import com.guess.myutils.LoginUtil.LoginListener;
+import com.guess.myview.XListView;
+import com.guess.myview.XListView.IXListViewListener;
+import com.guess.tools.BaseTools;
+import com.guess.view.TitleScrollView;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
+
+@SuppressLint("InflateParams")
+@SuppressWarnings("deprecation")
+public class SquareActivity extends Activity implements OnClickListener, IXListViewListener {
+	private TitleScrollView mTopTitle;
+	LinearLayout mRadioGroup_content;
+	LinearLayout more_columns;
+	RelativeLayout title_column;
+	/**
+	 * 新闻分类列表
+	 */
+	private ArrayList<String> listColumn = new ArrayList<String>();
+	/**
+	 * 当前选中的栏目
+	 */
+	private int columnSelectIndex = 0;
+	/**
+	 * 左阴影部分
+	 */
+	public ImageView shade_left;
+	/**
+	 * 右阴影部分
+	 */
+	public ImageView shade_right;
+	/**
+	 * 屏幕宽度
+	 */
+	private int mScreenWidth = 0;
+	/**
+	 * Item宽度
+	 */
+	private int mItemWidth = 0;
+	
+	private final String LIMIT = "10";//每次加载的数量
+	private String offset = "0";//当前加载的起始数据
+
+	private MyNetManager myNet;
+
+	private TextView tvBack;
+
+	private XListView mListView;
+	private MySquareAdapter mAdapter;
+	private ArrayList<HashMap<String, Object>> mList;
+
+	private String urlByTime = "http://api.caisichuan.com/gambleGuess/questionsByTime";
+	private String urlByAttention = "http://api.caisichuan.com/gambleGuess/questionsByAttention";
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_square_layout);
+		initView();
+		setData();
+	}
+	
+	/**
+	 * 初始化数据
+	 */
+	private void setData(){
+		mList = new ArrayList<>();
+		mAdapter = new MySquareAdapter(SquareActivity.this, mList, getWindowManager().getDefaultDisplay().getWidth() - 20);
+		mListView.setAdapter(mAdapter);
+		if (myNet.netIsAvailable()) {
+			HashMap<String, String> map = new HashMap<>();
+			map.put("offset", offset);
+			map.put("limit", LIMIT);
+			if(columnSelectIndex == 0){
+				getData(urlByTime, map);
+			}else{
+				getData(urlByAttention, map);
+			}
+		} else {
+			Toast.makeText(getApplicationContext(), getString(R.string.network_not_available), Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+	
+	@Override
+	protected void onResume() {
+		
+		super.onResume();
+	}
+
+	/**
+	 * 初始化
+	 */
+	private void initView() {
+		listColumn.add("最新竞猜");
+		listColumn.add("最热竞猜");
+		mScreenWidth = BaseTools.getWindowsWidth(this);
+		// 一个Item宽度为屏幕的1/6
+		mItemWidth = mScreenWidth / 5;
+		mTopTitle = (TitleScrollView) findViewById(R.id.mTopTitleScrollViewSquare);
+		mRadioGroup_content = (LinearLayout) findViewById(R.id.mRadioGroup_content_square);
+		initColumn();
+
+		myNet = new MyNetManager(getApplicationContext());
+
+		tvBack = (TextView) findViewById(R.id.navigation_tv_back);
+
+		mListView = (XListView) findViewById(R.id.square_listview);
+		
+		mListView.setPullLoadEnable(false);// 设置可加载更多
+		mListView.setXListViewListener(this);
+
+		mListView.setLoading(this, R.string.emptyview_tv_square);
+		
+		tvBack.setText(R.string.back);
+
+		tvBack.setOnClickListener(this);
+
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				HashMap<String, Object> dataMap = mList.get(arg2-1);
+				Intent squareDetail = new Intent(SquareActivity.this, SquareDetail.class);
+				squareDetail.putExtra("createTime", dataMap.get("createTime").toString());
+				squareDetail.putExtra("totalBet", dataMap.get("totalBet").toString());
+				squareDetail.putExtra("imageUrl", dataMap.get("imageUrl").toString());
+				squareDetail.putExtra("evaluation", dataMap.get("evaluation").toString());
+				squareDetail.putExtra("love", dataMap.get("love").toString());
+				squareDetail.putExtra("attention", dataMap.get("attention").toString());
+				squareDetail.putExtra("deadline", dataMap.get("deadline").toString());
+				squareDetail.putExtra("description", dataMap.get("description").toString());
+				squareDetail.putExtra("commentNumber", dataMap.get("commentNumber").toString());
+				squareDetail.putExtra("id", dataMap.get("id").toString());
+				squareDetail.putParcelableArrayListExtra("answers", (ArrayList<? extends Parcelable>) dataMap.get("answers"));
+				squareDetail.putExtra("myInfo", dataMap.get("myInfo").toString());
+				squareDetail.putExtra("authorBet", (int)dataMap.get("authorBet"));
+				squareDetail.putExtra("confirmAnswer", dataMap.get("confirmAnswer").toString());
+				squareDetail.putExtra("finished", (Boolean)dataMap.get("finished"));
+				startActivity(squareDetail);
+			}
+		});
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.navigation_tv_back:
+			finish();
+			break;
+		}
+	}
+
+	/**
+	 * 初始化Column栏目项
+	 */
+	private void initColumn() {
+		mRadioGroup_content.removeAllViews();
+		int count = listColumn.size();
+		mTopTitle.setParam(this, mScreenWidth, mRadioGroup_content, shade_left, shade_right, more_columns,
+				title_column);
+		for (int i = 0; i < count; i++) {
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mItemWidth,
+					LinearLayout.LayoutParams.WRAP_CONTENT);
+			params.leftMargin = 3;
+			params.rightMargin = 3;
+			params.topMargin = 3;
+			params.bottomMargin = 3;
+			TextView columnTextView = new TextView(this);
+			columnTextView.setBackgroundResource(R.drawable.top_guess_selector);
+			columnTextView.setGravity(Gravity.CENTER);
+			columnTextView.setPadding(3, 8, 3, 8);
+			columnTextView.setId(i);
+			columnTextView.setText(listColumn.get(i));
+			columnTextView.setTextColor(getResources().getColor(R.color.white));
+			if (columnSelectIndex == i) {
+				columnTextView.setSelected(true);
+			}
+			columnTextView.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+
+					for (int i = 0; i < mRadioGroup_content.getChildCount(); i++) {
+						View localView = mRadioGroup_content.getChildAt(i);
+						if (localView != v)
+							localView.setSelected(false);
+						else {
+							localView.setSelected(true);
+							selectTab(i);
+							changeRankList();
+						}
+					}
+				}
+			});
+			mRadioGroup_content.addView(columnTextView, i, params);
+		}
+
+	}
+
+	/**
+	 * 选择的Column里面的一项
+	 */
+	private void selectTab(int tab_postion) {
+		columnSelectIndex = tab_postion;
+		for (int i = 0; i < mRadioGroup_content.getChildCount(); i++) {
+			View checkView = mRadioGroup_content.getChildAt(tab_postion);
+			int k = checkView.getMeasuredWidth();
+			int l = checkView.getLeft();
+			int i2 = l + k / 2 - mScreenWidth / 2;
+			mTopTitle.smoothScrollTo(i2, 0);
+		}
+		// 判断是否选中
+		for (int j = 0; j < mRadioGroup_content.getChildCount(); j++) {
+			View checkView = mRadioGroup_content.getChildAt(j);
+			boolean ischeck;
+			if (j == tab_postion) {
+				ischeck = true;
+			} else {
+				ischeck = false;
+			}
+			checkView.setSelected(ischeck);
+		}
+	}
+
+	/**
+	 * get data
+	 * 
+	 * @param url
+	 * @param map
+	 */
+	private void getData(final String url, final HashMap<String, String> map) {
+		MyJsonRequest jsonRequest = new MyJsonRequest(url, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject response) {
+			//	System.out.println("response=" + response);
+				mListView.stopRefresh();
+				mListView.stopLoadMore();
+				mListView.setRefreshTime(getApplicationContext(), "square");
+				try {
+					if (response.getInt("ret") == 0) {
+
+						JSONArray list = response.getJSONArray("list");
+						JSONObject dataObject;
+						JSONArray anwserArray;
+						JSONObject myInfoObject;
+						JSONObject answersObject;
+						HashMap<String, Object> dataMap;
+						HashMap<String, Object> answersMap;
+						ArrayList<HashMap<String, Object>> list1;
+						for (int i = 0; i < list.length(); i++) {
+							dataObject = list.getJSONObject(i);
+							dataMap = new HashMap<>();
+							dataMap.put("createTime", dataObject.get("createTime") + "000");
+							dataMap.put("nickName", dataObject.get("nickname"));
+							dataMap.put("imageUrl", dataObject.get("imageUrl"));
+							dataMap.put("attention", dataObject.get("attention"));
+							dataMap.put("totalBet", dataObject.get("totalBet"));
+							dataMap.put("description", dataObject.get("description"));
+							dataMap.put("love", dataObject.get("love"));
+							dataMap.put("authorId", dataObject.get("authorId"));
+							dataMap.put("authorBet", dataObject.getInt("authorBet"));
+							dataMap.put("id", dataObject.get("id"));
+							dataMap.put("deadline", dataObject.get("deadline") + "000");
+							dataMap.put("commentNumber", dataObject.get("commentNumber"));
+							dataMap.put("finished", dataObject.getBoolean("finished"));
+
+							String myInfo = dataObject.getString("myInfo");
+							if (!"null".equals(myInfo) && (myInfo != null)) {
+								myInfoObject = new JSONObject(myInfo);
+								dataMap.put("evaluation", myInfoObject.get("evaluation"));
+								dataMap.put("myInfo", myInfo);
+							} else {
+								dataMap.put("evaluation", "0");
+								dataMap.put("myInfo", "");
+							}
+							
+							//答案确定信息
+							String confirmAnswer = dataObject.getString("confirmAnswer");
+							if(confirmAnswer != null){
+								dataMap.put("confirmAnswer", confirmAnswer);
+							}else{
+								dataMap.put("confirmAnswer", "");
+							}
+
+							anwserArray = dataObject.getJSONArray("answers");
+							list1 = new ArrayList<>();
+							for(int j = 0; j < anwserArray.length(); j ++){
+								answersObject = anwserArray.getJSONObject(j);
+								answersMap = new HashMap<>();
+								answersMap.put("content", answersObject.get("content"));
+								answersMap.put("totalBet", answersObject.get("totalBet"));
+								answersMap.put("answerIndex", answersObject.get("answerIndex"));
+								list1.add(answersMap);
+							}
+							dataMap.put("answers", list1);
+							
+							if(mList.size() > Integer.parseInt(LIMIT)){
+								mListView.setPullLoadEnable(true);
+							}else{
+								mListView.setPullLoadEnable(false);
+							}
+
+							mList.add(dataMap);
+							mAdapter.notifyDataSetChanged();
+						}
+					} else {
+						if(response.getInt("ret") == Constant.NOT_LOGIN){
+							LoginUtil login = new LoginUtil(SquareActivity.this);
+							login.login(new LoginListener() {
+								
+								@Override
+								public void onLoginAfter() {
+									getData(url, map);
+								}
+							});
+						}
+					}
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				mListView.stopRefresh();
+			}
+		}, map);
+		new ApplicationUtil(getApplicationContext()).getRequestQueue().add(jsonRequest);
+	}
+
+	@Override
+	public void onRefresh() {
+		// refresh data
+		if (myNet.netIsAvailable()) {
+			mListView.setLoading(this, R.string.emptyview_tv_square);
+			offset = "0";
+		//	mList = new ArrayList<>();
+			mList.clear();
+			String rankUrl = "";
+			if (columnSelectIndex != 0) {
+				rankUrl = urlByAttention;
+			} else {
+				rankUrl = urlByTime;
+			}
+
+			HashMap<String, String> map = new HashMap<>();
+			map.put("offset", offset);
+			map.put("limit", LIMIT);
+			getData(rankUrl, map);
+		} else {
+			mListView.stopRefresh();
+			Toast.makeText(getApplicationContext(), getString(R.string.network_not_available), Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
+	@Override
+	public void onLoadMore() {
+		// load more
+		if (myNet.netIsAvailable()) {
+			offset = String.valueOf(Integer.parseInt(offset) + Integer.parseInt(LIMIT));
+			String rankUrl = "";
+			if (columnSelectIndex != 0) {
+				rankUrl = urlByAttention;
+			} else {
+				rankUrl = urlByTime;
+			}
+
+			HashMap<String, String> map = new HashMap<>();
+			map.put("offset", offset);
+			map.put("limit", LIMIT);
+			getData(rankUrl, map);
+		} else {
+			mListView.stopRefresh();
+			mListView.stopLoadMore();
+			Toast.makeText(getApplicationContext(), getString(R.string.network_not_available), Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
+	/**
+	 * 改变当前是积分榜还是金币榜
+	 */
+	
+	private void changeRankList() {
+		String rankUrl = "";
+		offset = "0";
+		mList.clear();
+		HashMap<String, String> map = new HashMap<>();
+		map.put("offset", offset);
+		map.put("limit", LIMIT);
+		if (columnSelectIndex != 0) {
+			// 最热
+			rankUrl = urlByAttention;
+		} else {
+			// 最新榜
+			rankUrl = urlByTime;
+		}
+		mAdapter = new MySquareAdapter(SquareActivity.this, mList, getWindowManager().getDefaultDisplay().getWidth() - 20);
+		mListView.setAdapter(mAdapter);
+		getData(rankUrl, map);
+	}
+}

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="360dp"
+    android:layout_gravity="center"
+    android:background="@drawable/gamble_gold_animation_bg" >
+
+    <LinearLayout
+        android:id="@+id/answer_before"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/answer_dialog_gold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="+3金币"
+            android:textColor="@color/gold"
+            android:textSize="30sp" />
+
+        <com.guess.view.GifView
+            android:id="@+id/answer_dialog_gif"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/answer_dialog_gold"
+            android:layout_gravity="center"
+            android:enabled="false" />
+
+        <TextView
+            android:id="@+id/answer_dialog_index"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/answer_dialog_gif"
+            android:gravity="center_horizontal"
+            android:text="+3金币"
+            android:textColor="@color/gold"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/answer_after"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center_horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/answer_after_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:text="此题已答过"
+            android:textColor="@color/gold"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/answer_after_index"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
+            android:text="已有  14  人答对此题"
+            android:textColor="@color/gold"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingBottom="30dp" >
+
+        <Button
+            android:id="@+id/answer_dialog_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/answer_dialog_btn"
+            android:text="分享" />
+
+        <Button
+            android:id="@+id/answer_dialog_comfire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/answer_dialog_btn"
+            android:text="确定" />
+    </LinearLayout>
+
+</RelativeLayout>

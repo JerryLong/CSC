@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige"
+    android:orientation="vertical" >
+    <!-- 导航栏 -->
+
+    <include
+        android:id="@+id/edit_name_rlt_top" 
+        layout="@layout/layout_navigation_bar"/>
+	
+
+        <EditText 
+            android:id="@+id/edit_et_address"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:singleLine="false"
+            android:gravity="top"
+            android:hint="输入收货地址"
+            android:padding="5dp"
+            android:background="@drawable/login_bg2x"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="40dp"/>
+
+    
+    <Button 
+        android:id="@+id/edit_address_save"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/cmark_exchange_btn"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:text="完成"/>
+	
+</LinearLayout>

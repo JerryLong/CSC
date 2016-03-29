@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/top_status_select_bg" >
+
+    <TextView
+        android:id="@+id/navigation_tv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:drawableLeft="@drawable/back"
+        android:paddingLeft="-5dp"
+        android:gravity="center"
+        android:text="返回"
+        android:drawablePadding="-12dp"
+        android:textColor="@drawable/selector_text_login"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/navigation_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+</RelativeLayout>

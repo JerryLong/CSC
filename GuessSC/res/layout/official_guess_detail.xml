@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.cdrongyao.caisichuan"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/personinfobg"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/square_detail_picture"
+        android:layout_width="match_parent"
+        android:layout_height="260dp" >
+
+        <ImageView
+            android:id="@+id/official_guess_detail_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/action_settings"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="0.8" >
+
+            <TextView
+                android:id="@+id/official_guess_detail_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/back"
+                android:drawablePadding="-12dp"
+                android:gravity="center"
+                android:paddingLeft="-5dp"
+                android:text="返回"
+                android:textColor="@drawable/selector_text_login"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/official_guess_detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="活动详情"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/official_guess_detail_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="举报"
+                android:textColor="@drawable/selector_text_login"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:background="#fff"
+        android:id="@+id/official_guess_detail_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</LinearLayout>

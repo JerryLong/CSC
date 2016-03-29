@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+    <include 
+        android:id="@+id/pop_up_top"
+        layout="@layout/layout_navigation_bar"/>
+
+    <ListView
+        android:layout_below="@+id/pop_up_top"
+        android:id="@+id/popup_window_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#eee3d9"
+        android:dividerHeight="1px" >
+    </ListView>
+
+</RelativeLayout>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.cdrongyao.caisichuan"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/answer_two_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="@color/black" >
+
+            <SurfaceView
+                android:id="@+id/activity_answer_surfaceview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/activity_answer_imageview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/download_failed" />
+
+            <ImageView
+                android:id="@+id/activity_answer_video_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="center"
+                android:src="@drawable/icn_play_big" />
+
+            <Button
+                android:id="@+id/activity_answer_prop"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="80dp"
+                android:background="@drawable/prompt_btn2x" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/answer_three_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@color/orange_yellow"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/activity_answer_container"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/answer_btn_bg"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" >
+            </LinearLayout>
+
+            <com.guess.view.GridButtonView
+                android:id="@+id/activity_answer_gridview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/answer_bottom_layout"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:horizontalSpacing="4dp"
+                android:numColumns="6"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:verticalSpacing="4dp" >
+            </com.guess.view.GridButtonView>
+
+            <LinearLayout
+                android:id="@+id/answer_bottom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/orange_yellow"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/activity_answer_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ncwc_zan"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="@string/answer_chat"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/activity_answer_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ncwc_help"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:text="@string/answer_help"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/activity_answer_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ncwc_comment"
+                    android:text="@string/answer_comment"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/answer_layout_bar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#00FFFFFF" >
+
+        <Button
+            android:id="@+id/answer_layout_back"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:background="#00FFFFFF"
+            android:drawableLeft="@drawable/back"
+            android:drawablePadding="-12dp"
+            android:gravity="center"
+            android:paddingLeft="-5dp"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/answer_layout_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/answer_layout_report"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:background="#00FFFFFF"
+            android:gravity="center"
+            android:text="@string/answer_report"
+            android:textColor="@drawable/text_while"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/answer_layout_user"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="55dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" >
+
+        <com.guess.myview.CircleImageView
+            android:id="@+id/activity_answer_avatar"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/default_avatar3x" />
+
+        <TextView
+            android:id="@+id/activity_answer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/activity_answer_avatar"
+            android:text="小天"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/activity_answer_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_answer_name"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/activity_answer_avatar"
+            android:text="2012511005"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/activity_answer_assist"
+            android:layout_width="75dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/like_bg"
+            android:drawableLeft="@drawable/ic_square_unlike2x"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:text="赞 (0)"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/progress_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" >
+
+        <ProgressBar
+            style="@android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+</FrameLayout>

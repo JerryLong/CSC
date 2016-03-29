@@ -1,0 +1,52 @@
+package com.example.imagecache;
+
+import java.io.File;
+
+import android.content.Context;
+
+/**
+ * 文件缓存类
+ * @author YXC
+ *
+ */
+public class FileCache {  
+	  
+    private File cacheDir;  
+  
+    public FileCache(Context context) {  
+
+        if (android.os.Environment.getExternalStorageState().equals(  
+                android.os.Environment.MEDIA_MOUNTED))  {
+            cacheDir = new File(  
+                    android.os.Environment.getExternalStorageDirectory(),  
+                    "LazyList");  
+        }else {
+            cacheDir = context.getCacheDir();  
+        }
+        if (!cacheDir.exists()) {
+            cacheDir.mkdirs();  
+        }
+    }  
+  
+    public File getFile(String url) {  
+        // 获取文件名
+        String filename = String.valueOf(url.hashCode());  
+        // Another possible solution  
+        // String filename = URLEncoder.encode(url);  
+        File f = new File(cacheDir, filename);  
+        return f;  
+  
+    }  
+  
+    /**
+     * 清除文件缓存
+     */
+    public void clear() {  
+        File[] files = cacheDir.listFiles();  
+        if (files == null)  
+            return;  
+        for (File f : files)  
+            f.delete();  
+    }  
+  
+} 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <corners
+        android:bottomLeftRadius="18dp"
+        android:bottomRightRadius="18dp"
+        android:radius="9dp"
+        android:topLeftRadius="18dp"
+        android:topRightRadius="18dp" />
+    <!-- 设置圆角半径 -->
+    <solid android:color="@color/top_status_select_bg" />
+
+</shape>

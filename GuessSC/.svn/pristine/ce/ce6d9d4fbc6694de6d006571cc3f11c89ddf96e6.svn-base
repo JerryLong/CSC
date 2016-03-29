@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <ImageView
+        android:id="@+id/view_official_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/begin_bg" />
+
+    <ImageView
+        android:id="@+id/view_official_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/view_official_image"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_activity_underway" />
+
+    <TextView
+        android:id="@+id/view_official_acTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/view_official_image"
+        android:layout_below="@id/view_official_image"
+        android:text="测试专场"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/view_official_acDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/view_official_image"
+        android:layout_below="@id/view_official_acTitle"
+        android:layout_marginTop="5dp"
+        android:text="测试描述"
+        android:textColor="@color/drak_lower"
+        android:textSize="14sp" />
+
+</RelativeLayout>

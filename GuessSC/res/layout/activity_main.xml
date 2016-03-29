@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 上边主页面 -->
+
+    <FrameLayout
+        android:id="@+id/fragments_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <!-- 底部菜单页面 -->
+
+    <RadioGroup
+        android:id="@+id/bottomRg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/drak_lower"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/rbOne"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableTop="@drawable/main_tab_one"
+            android:text="@string/main_tab_one" />
+
+        <RadioButton
+            android:id="@+id/rbTwo"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableTop="@drawable/main_tab_two"
+            android:text="@string/main_tab_two" />
+
+        <RadioButton
+            android:id="@+id/rbThree"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableTop="@drawable/main_tab_three"
+            android:text="@string/main_tab_three" />
+    </RadioGroup>
+
+</LinearLayout>

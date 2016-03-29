@@ -1,0 +1,370 @@
+package com.guess.activity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.cdrongyao.caisichuan.R;
+import com.android.volley.VolleyError;
+import com.guess.database.DarenData;
+import com.guess.database.DarenLable;
+import com.guess.myadapter.MyDarenAdapter;
+import com.guess.myutils.ApplicationUtil;
+import com.guess.myutils.Constant;
+import com.guess.myutils.LoginUtil;
+import com.guess.myutils.MyJsonRequest;
+import com.guess.myutils.MyNetManager;
+import com.guess.myutils.ShareData;
+import com.guess.myutils.LoginUtil.LoginListener;
+import com.guess.myview.XListView;
+import com.guess.myview.XListView.IXListViewListener;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+@SuppressLint({ "InflateParams", "HandlerLeak" })
+public class SCPersonActivity extends Activity implements OnClickListener, IXListViewListener{
+	
+	private ApplicationUtil application;
+	
+	private TextView tvTitle, tvBack;
+	
+	private TextView tvRank, tvUp;
+	
+	private ImageView imgStart;
+	
+	private XListView mListView;
+	private ArrayList<HashMap<String, Object>> mDataList;
+	private ArrayList<HashMap<String, Object>> sqlList;//从数据库加载出来的所有题目列表
+	private ArrayList<HashMap<String, Object>> mLableList;
+	private MyDarenAdapter mAdapter;
+	
+//	private String dataUrl = "http://api.caisichuan.com/api/v2/city/getQuestions";//获取题目列表(点击开始之后)
+	private String byLevelUrl = "http://api.caisichuan.com/api/v2/city/getAnsweredQuestionsByGameLevel";//根据gameLevel获取后面的已答过的题目，用户下拉加载数据
+	private String byTimeUrl = "http://api.caisichuan.com/api/v2/city/getLatestAnsweredQuestions";//获取答过的题目
+	private String rankUrl = "http://api.caisichuan.com/cityTalent/getRankInfo";
+	private final String NUMBER = "10";
+	
+	private boolean load = false;
+	
+	private DarenData sqlData;
+	private DarenLable sqlLable;
+	private MyNetManager myNet;
+	private ShareData share;
+	
+	private Handler handler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			if(msg.what == 0){
+				if(myNet.netIsAvailable()){
+					HashMap<String, String> map = new HashMap<String, String>();
+					map.put("number", NUMBER);
+					getData(byTimeUrl, map);
+				}else{
+					mDataList = getSubList(sqlList, 0, Integer.parseInt(NUMBER));
+					handler.sendEmptyMessageDelayed(2, 1000);
+				}
+			}else if(msg.what == 1){
+				mAdapter.notifyDataSetChanged();
+				mListView.stopLoadMore();
+				mListView.stopRefresh();
+			}else if(msg.what == 2){
+				mAdapter =  new MyDarenAdapter(SCPersonActivity.this, mDataList);
+				mListView.setAdapter(mAdapter);
+				if(mDataList.size() >= Integer.parseInt(NUMBER)){
+					mListView.setPullLoadEnable(true);
+				}else{
+					mListView.setPullLoadEnable(false);
+				}
+			}else if(msg.what == 3){
+				if(sqlList == null){
+					sqlList = sqlData.getDarenInfo();
+				}
+				ArrayList<HashMap<String, Object>> list = getSubList(sqlList, mDataList.size(), mDataList.size() + Integer.parseInt(NUMBER));
+				for(int i = 0; i < list.size(); i++){
+					mDataList.add(list.get(i));
+				}
+				handler.sendEmptyMessage(1);
+			}else if(msg.what == 4){
+				if(sqlList == null){
+					sqlList = sqlData.getDarenInfo();
+				}
+				mDataList = getSubList(sqlList, 0, Integer.parseInt(NUMBER));
+				handler.sendEmptyMessageDelayed(2, 0);
+				mListView.stopRefresh();
+			}
+		};
+	};
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_scperson_layout);
+		
+		initView();
+	}
+
+	/**
+	 * 初始化
+	 */
+	private void initView() {
+		application = new ApplicationUtil(getApplicationContext());
+		sqlData = new DarenData(getApplicationContext());
+		sqlLable = new DarenLable(getApplicationContext());
+		myNet = new MyNetManager(getApplicationContext());
+		share = ShareData.getInstance(getApplicationContext());
+		
+		tvTitle = (TextView) findViewById(R.id.navigation_tv_title);
+		tvBack = (TextView) findViewById(R.id.navigation_tv_back);
+
+		tvTitle.setText(R.string.title_sc_daren);
+		tvBack.setText(R.string.back);
+		
+		imgStart = (ImageView)findViewById(R.id.daren_img_start);
+		tvRank = (TextView)findViewById(R.id.daren_tv_rank);
+		tvUp = (TextView)findViewById(R.id.daren_tv_up);
+		
+		mListView = (XListView) findViewById(R.id.daren_listview);
+		mListView.setPullLoadEnable(false);
+		mDataList = new ArrayList<HashMap<String, Object>>();
+		mLableList = new ArrayList<HashMap<String, Object>>();
+		mAdapter = new MyDarenAdapter(SCPersonActivity.this, mDataList);
+		mListView.setAdapter(mAdapter);
+		mListView.setLoading(SCPersonActivity.this, "快去开始你的达人之旅吧!");
+		
+		if(myNet.netIsAvailable()){
+			getData(rankUrl, new HashMap<String, String>());
+		}else{
+			tvRank.setText("当前排名: 第" + share.getRank() + "名");
+			tvUp.setText("已超越: " + share.getUp() + "人");
+			sqlList = sqlData.getDarenInfo();
+			handler.sendEmptyMessage(0);
+		}
+		
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				load = false;
+				HashMap<String, Object> map = mDataList.get(arg2-1);
+				Intent darenDetail = new Intent(SCPersonActivity.this, DarenDetail.class);
+				darenDetail.putExtra("title", map.get("answer").toString());
+				darenDetail.putExtra("description", map.get("description").toString());
+				darenDetail.putExtra("picture", map.get("imageUrl").toString());
+				darenDetail.putParcelableArrayListExtra("lable", (ArrayList<? extends Parcelable>) map.get("lable"));
+				darenDetail.putExtra("flag", 0);
+				startActivity(darenDetail);
+			}
+		});
+
+		tvBack.setOnClickListener(this);
+		imgStart.setOnClickListener(this);
+		mListView.setXListViewListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.navigation_tv_back:
+			finish();
+			break;
+
+		case R.id.daren_img_start:
+			load = true;
+			//开始达人之旅
+			if(myNet.netIsAvailable()){
+				Intent intent = new Intent(SCPersonActivity.this, DaRenAnswer.class);
+				startActivity(intent);
+			}else{
+				Toast.makeText(getApplicationContext(), R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
+			}
+			break;
+		}
+		
+	}
+	
+	@Override
+	protected void onResume() {
+		if(load){//点击开始按钮之后回到此页面 重新加载数据
+			mDataList = new ArrayList<HashMap<String, Object>>();
+			mAdapter = new MyDarenAdapter(SCPersonActivity.this, mDataList);
+			mListView.setAdapter(mAdapter);
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("number", NUMBER);
+			getData(rankUrl, map);
+		}
+		super.onResume();
+	}
+
+	@Override
+	public void onRefresh() {
+		if(myNet.netIsAvailable()){
+			mListView.setLoading(SCPersonActivity.this, "快去开始你的达人之旅吧!");
+			mListView.setProgressVisivility(View.INVISIBLE);
+			mDataList.clear();
+			mAdapter = new MyDarenAdapter(SCPersonActivity.this, mDataList);
+			mListView.setAdapter(mAdapter);
+			mListView.setPullLoadEnable(false);
+			HashMap<String, String> map = new HashMap<>();
+			map.put("number", NUMBER);		
+			getData(rankUrl, map);
+		}else{
+			handler.sendEmptyMessageDelayed(4, 1000);
+		}
+	}
+
+	@Override
+	public void onLoadMore() {
+		if(myNet.netIsAvailable()){
+			HashMap<String, String> map = new HashMap<>();
+			String gameLevel = mDataList.get(mDataList.size()-1).get("gameLevel").toString();
+			map.put("number", NUMBER);
+			map.put("gameLevel", String.valueOf(Integer.parseInt(gameLevel)-1));
+			getData(byLevelUrl, map);
+		}else{
+			
+			handler.sendEmptyMessageDelayed(3, 1000);
+		}
+	}
+	
+	/**
+	 * 获取数据
+	 * @param url  服务器地址
+	 * @param map  参数
+	 */
+	private void getData(final String url, final HashMap<String, String> map){
+		MyJsonRequest request = new MyJsonRequest(url, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject response) {
+			//	System.out.println("resonse==="+response);
+				if(url.equals(rankUrl)){
+					try {
+						if(response.getInt("ret") == 0){
+							int userCount = response.getInt("userCount");
+							int currentRank = response.getInt("currentRank");
+							tvRank.setText("当前排名: 第" + currentRank + "名");
+							tvUp.setText("已超越: " + (userCount - currentRank) + "人");
+							share.setUp(String.valueOf(userCount - currentRank));
+							share.setRank(String.valueOf(currentRank));
+						}else{
+							if(response.getInt("ret") == Constant.NOT_LOGIN){
+								LoginUtil login = new LoginUtil(SCPersonActivity.this);
+								login.login(new LoginListener() {
+									
+									@Override
+									public void onLoginAfter() {
+										getData(url, map);
+									}
+								});
+							}
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					handler.sendEmptyMessageDelayed(0, 0);
+				}else{
+					try {
+						if(response.getInt("ret") == 0){
+							mListView.stopLoadMore();
+							mListView.stopRefresh();
+							mListView.setRefreshTime(getApplicationContext(), "daren");
+							JSONArray dataArray = response.getJSONArray("data");
+				
+							HashMap<String, Object> dataMap;
+							HashMap<String, Object> lableMap;
+							JSONObject dataObject;
+							for(int i = 0; i < dataArray.length(); i++){
+								dataObject = dataArray.getJSONObject(i);
+								dataMap = new HashMap<String, Object>();
+								dataMap.put("answer", dataObject.get("answer"));
+								dataMap.put("title", dataObject.get("title"));
+								dataMap.put("imageUrl", dataObject.get("imageUrl"));
+								dataMap.put("gameLevel", dataObject.get("gameLevel"));
+								dataMap.put("description", dataObject.get("description"));
+								
+								sqlData.addDarenInfo(dataMap);
+								
+								JSONArray lableArray = dataObject.getJSONArray("tags");
+								JSONObject lableObject;
+								mLableList = new ArrayList<>();
+								for(int j = 0; j < lableArray.length(); j++){
+									lableObject = lableArray.getJSONObject(j);
+									lableMap = new HashMap<>();
+									lableMap.put("id", lableObject.get("id"));
+									lableMap.put("name", lableObject.get("name"));
+									lableMap.put("count", lableObject.get("count"));
+									lableMap.put("agree", lableObject.get("agreed"));
+									mLableList.add(lableMap);
+									
+									sqlLable.addLable(dataObject.get("gameLevel").toString(), lableMap);
+								}
+								if(mLableList == null){
+									mLableList = new ArrayList<>();
+								}
+								dataMap.put("lable", mLableList);
+								
+								mDataList.add(dataMap);
+								mAdapter.notifyDataSetChanged();
+				
+								if(mDataList.size() >= Integer.parseInt(NUMBER)){
+									mListView.setPullLoadEnable(true);
+								}else{
+									mListView.setPullLoadEnable(false);
+								}
+							}
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				mListView.stopLoadMore();
+				mListView.stopRefresh();
+			}
+		}, map);
+		application.getRequestQueue().add(request);
+	}
+	
+	/**
+	 * 截取list
+	 * @param list   源list
+	 * @param start  起始索引(包含)
+	 * @param end    结束索引(不包含)
+	 * @return       子list
+	 */
+	private ArrayList<HashMap<String, Object>> getSubList(ArrayList<HashMap<String, Object>> list, int start, int end){
+		ArrayList<HashMap<String, Object>> subList = new ArrayList<>();
+		HashMap<String, Object> map;
+		for(int i = start; (i < end) && (i < list.size()); i++){
+			map = list.get(i);
+			subList.add(map);
+		}
+		return subList;
+	}
+}

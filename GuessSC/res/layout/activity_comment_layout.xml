@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/comment_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/top_status_select_bg" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/comment_title"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="normal" />
+
+        <Button
+            android:id="@+id/comment_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/top_status_select_bg"
+            android:text="@string/comment_finish_btn"
+            android:textSize="18sp"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/comment_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/comment_title_layout" />
+
+    <TextView
+        android:id="@+id/comment_tips"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/comment_title_layout"
+        android:background="@color/white"
+        android:drawableTop="@drawable/no_comments"
+        android:gravity="center_horizontal"
+        android:paddingTop="150dp"
+        android:text="@string/comment_tips"
+        android:textColor="@color/tab_text_color_default"
+        android:textSize="20sp" />
+
+</RelativeLayout>

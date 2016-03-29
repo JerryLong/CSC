@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_tab"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/drak_lower"
+    android:gravity="center" >
+	<FrameLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent">
+	    <TextView 
+	        android:visibility="gone"
+	        android:id="@+id/tab_un_read"
+	        android:layout_gravity="top|right"
+	        android:layout_marginTop="2dp"
+	        android:layout_marginRight="15dp"
+	        android:gravity="center"
+	        android:layout_width="20dp"
+	        android:layout_height="20dp"
+	        android:background="@drawable/shape_dots"
+	        android:textSize="10sp"
+	        android:textColor="#fff"/>
+	    <TextView
+	        android:layout_gravity="center"
+	        android:id="@+id/main_two_tab"
+	        style="@style/main_tab_bottom"
+	        android:drawableTop="@drawable/main_tab_two"
+	        android:text="@string/main_tab_two" />
+	</FrameLayout>
+    
+
+</LinearLayout>

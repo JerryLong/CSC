@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!-- 竖线 -->
+    <TextView 
+        android:layout_alignParentLeft="true"
+        android:id="@+id/sc_daren_item_line"
+        android:layout_width="2dp"
+        android:layout_height="270dp"
+        android:background="#ccc"
+        android:layout_marginLeft="@dimen/sc_daren_item_line"/>
+	
+    
+    <!-- 题目 -->
+    <TextView 
+        android:id="@+id/item_daren_question"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="-5dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@+id/sc_daren_item_line"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:textColor="#fff"
+        android:paddingLeft="30dp"
+        android:paddingRight="25dp"
+        android:background="@drawable/daren_question_red_bg2x"/>
+    <!-- 题目序号 -->
+    <TextView 
+        android:id="@+id/item_daren_order"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:textColor="#fff"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textStyle="bold|italic"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/number_red_bg2x"/>
+    <!-- 图片 -->
+    
+    <FrameLayout 
+        android:visibility="visible"
+        android:id="@+id/item_daren_fram"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_toRightOf="@+id/sc_daren_item_line"
+        android:layout_below="@+id/item_daren_question"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/history"
+        android:paddingLeft="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="15dp">
+        <ImageView 
+	        android:contentDescription="@string/action_settings"
+	        android:id="@+id/item_daren_picture"
+	        android:scaleType="fitXY"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"/>
+        <GridLayout 
+            android:id="@+id/item_daren_grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:orientation="horizontal">
+				
+        </GridLayout>
+    </FrameLayout>
+    
+</RelativeLayout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/square_detail_picture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:background="@drawable/download_failed" >
+
+        <ImageView
+            android:id="@+id/daren_answer_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/action_settings"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:alpha="1" >
+
+            <TextView
+                android:id="@+id/daren_answer_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/back"
+                android:drawablePadding="-12dp"
+                android:gravity="center"
+                android:paddingLeft="-5dp"
+                android:text="返回"
+                android:textColor="@drawable/selector_text_login"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/daren_answer_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/daren_answer_tip"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:background="@drawable/prompt_btn2x" />
+
+            <Button
+                android:id="@+id/daren_answer_help"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/help_btn" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:background="@color/orange_yellow" >
+
+        <LinearLayout
+            android:id="@+id/daren_answer_container"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/answer_btn_bg"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" >
+        </LinearLayout>
+
+        <com.guess.view.GridButtonView
+            android:id="@+id/daren_answer_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:horizontalSpacing="4dp"
+            android:numColumns="6"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:verticalSpacing="4dp" >
+        </com.guess.view.GridButtonView>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="288dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="#F5F5F5"
+    android:orientation="vertical" >
+
+    <!-- 标题 -->
+
+    <TextView
+        android:id="@+id/global_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#F5F5F5"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:text="@string/cmark_dialog_confirm"
+        android:textColor="#4BBCE0"
+        android:textSize="18sp" />
+    <!-- 横线 -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#20ADDA" />
+    <!-- 提示内容 -->
+
+    <LinearLayout
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/setting_account_bind_cancel"
+            android:layout_width="0dip"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/cmark_dialog_button"
+            android:text="@string/cmark_dialog_address"
+            android:textColor="@drawable/cmark_button_color"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/line_hori_center"
+            android:layout_width="0.6dp"
+            android:layout_height="match_parent"
+            android:background="#DDDDDD"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/cmark_dialog_address"
+            android:layout_width="0dip"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/cmark_dialog_button"
+            android:text="@string/cmark_dialog_address"
+            android:textColor="@drawable/cmark_button_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="#DDDDDD" />
+    <!-- 按钮 -->
+
+    <LinearLayout
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/setting_account_bind_exchange"
+            android:layout_width="0dip"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/cmark_dialog_button"
+            android:text="取消"
+            android:textColor="@drawable/cmark_button_color"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/line_hori_exchange"
+            android:layout_width="0.6dp"
+            android:layout_height="match_parent"
+            android:background="#DDDDDD"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/cmark_dialog_exchange"
+            android:layout_width="0dip"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/cmark_dialog_button"
+            android:text="@string/cmark_dialog_exchange"
+            android:textColor="@drawable/cmark_button_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- 横线（下） -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="#DDDDDD" />
+    <!-- 按钮 -->
+
+    <LinearLayout
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/cmark_dialog_bind_cancel"
+            android:layout_width="0dip"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/cmark_dialog_button"
+            android:text="@string/cmark_dialog_cancel"
+            android:textColor="@drawable/cmark_button_color"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/line_hori_address"
+            android:layout_width="0.6dp"
+            android:layout_height="match_parent"
+            android:background="#DDDDDD"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/cmark_dialog_cancel"
+            android:layout_width="0dip"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/cmark_dialog_button"
+            android:text="@string/cmark_dialog_cancel"
+            android:textColor="@drawable/cmark_button_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>

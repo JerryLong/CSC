@@ -1,0 +1,343 @@
+package com.guess.activity;
+
+import java.io.File;
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.cdrongyao.caisichuan.R;
+import com.android.volley.VolleyError;
+import com.easemob.location.MyBDLocation;
+import com.easemob.location.MyBDLocation.LocationFinishListener;
+import com.guess.image.ClipImageActivity;
+import com.guess.image.ListImgActivity;
+import com.guess.image.TabPopupWindow;
+import com.guess.image.video.MediaRecordActivity;
+import com.guess.image.video.VideoPlayerActivity;
+import com.guess.myutils.ApplicationUtil;
+import com.guess.myutils.Constant;
+import com.guess.myutils.LoginUtil;
+import com.guess.myutils.LoginUtil.LoginListener;
+import com.guess.myutils.MyJsonRequest;
+import com.guess.myutils.PDialogUtil;
+import com.guess.myutils.ShareData;
+import com.guess.myview.MyCheckSwitchButton;
+import com.guess.utils.Logs;
+import com.guess.utils.PublicTools;
+import com.guess.utils.PublicTools.UploadFinishListener;
+import com.guess.utils.UrlContants;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class SetQuestionActivity extends Activity implements OnClickListener {
+	private ImageView mImageView;
+	private EditText mQuestionEdit, mAnswerEdit;
+	TextView mLocationTxt;
+	private TabPopupWindow mPopupWindow;
+	private Button mUpBtn, mBackBtn;
+	private String mImagePath = "", mVideoPath = "", imagepath;
+	ShareData mShareData;
+	MyCheckSwitchButton mSwitchButton;
+	String location = "", position = "", answer = "", question = "", imageUrl = "", videoUrl = "";
+	private ApplicationUtil mApplicationUtil;
+	boolean LOCATION_SET = false, isVideo = false;
+	private static final int TAKE_PICTURE = 0x000001;
+
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_question_layout);
+
+		initViews();
+
+	}
+
+	void initViews() {
+		mUpBtn = (Button) findViewById(R.id.question_layout_up);
+		mBackBtn = (Button) findViewById(R.id.question_layout_back);
+		mQuestionEdit = (EditText) findViewById(R.id.question_layout_title);
+		mAnswerEdit = (EditText) findViewById(R.id.question_layout_answer);
+		mImageView = (ImageView) findViewById(R.id.question_layout_popup);
+		mLocationTxt = (TextView) findViewById(R.id.question_location_txt);
+		mSwitchButton = (MyCheckSwitchButton) findViewById(R.id.select_location);
+		mUpBtn.setOnClickListener(this);
+		mBackBtn.setOnClickListener(this);
+		mImageView.setOnClickListener(this);
+		mSwitchButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				LOCATION_SET = isChecked;
+				if (isChecked) {
+					MyBDLocation.getInstance(getApplicationContext()).registerLocation(new LocationFinishListener() {
+
+						@Override
+						public void onLocationFinish() {
+							location = MyBDLocation.lastLocation.getAddrStr();
+							mLocationTxt.setText("" + location);
+							position = getLocation(MyBDLocation.lastLocation.getAddrStr(),
+									MyBDLocation.lastLocation.getLongitude(), MyBDLocation.lastLocation.getLatitude());
+						}
+					});
+				} else {
+					position = getLocation("", 0.0, 0.0);
+				}
+
+			}
+		});
+
+		mShareData = ShareData.getInstance(getApplicationContext());
+		mApplicationUtil = new ApplicationUtil(getApplicationContext());
+	}
+
+	private void saveFullImage() {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+		String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString();
+		File path1 = new File(path);
+		if (!path1.exists()) {
+			path1.mkdirs();
+		}
+		File file = new File(path1, System.currentTimeMillis() + ".jpg");
+		imagepath = file.getAbsolutePath();
+		Uri mOutPutFileUri = Uri.fromFile(file);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, mOutPutFileUri);
+		startActivityForResult(intent, TAKE_PICTURE);
+
+	}
+
+	private OnClickListener itemsOnClick = new OnClickListener() {
+
+		public void onClick(View v) {
+			mPopupWindow.dismiss();
+			switch (v.getId()) {
+			case R.id.btn_pick_photo:
+				Intent intent = new Intent(SetQuestionActivity.this, ListImgActivity.class);
+				startActivityForResult(intent, 10001);
+				break;
+			case R.id.btn_take_photo:
+				saveFullImage();
+				break;
+			case R.id.btn_take_video:
+				intent = new Intent(SetQuestionActivity.this, MediaRecordActivity.class);
+				startActivityForResult(intent, 10004);
+				break;
+			}
+
+		}
+
+	};
+
+	private void upLoadQuestion(final String answer, final String question, final String location,
+			final boolean isVideo, final String imageUrl, final String videoUrl) {
+		String url = UrlContants.LOCATION;
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (isVideo) {
+			url += UrlContants.NCWC_QUESTION_VIDEO;
+			map.put("videoUrl", videoUrl);
+		} else {
+			url += UrlContants.NCWC_QUESTION;
+		}
+		map.put("imageUrl", imageUrl);
+		map.put("answer", answer);
+		map.put("title", question);
+		map.put("location", location);
+		MyJsonRequest request = new MyJsonRequest(url, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					if (response.getInt("ret") == 0) {
+						PDialogUtil.cancelDialog();
+						System.out.println("imageUrl" + imageUrl);
+						Logs.i("imageUrl   " + imageUrl);
+						Toast.makeText(getApplicationContext(), "题目上传成功！", Toast.LENGTH_SHORT).show();
+						if (isVideo) {
+							File video = new File(mVideoPath);
+							File image = new File(mImagePath);
+							if (video.getParentFile().exists() && image.getParentFile().exists()) {
+								video.getParentFile().delete();
+								image.getParentFile().delete();
+							}
+						} else {
+							File image = new File(mImagePath);
+							if (image.getParentFile().exists()) {
+								image.getParentFile().delete();
+							}
+
+						}
+					} else if (response.getInt("ret") == Constant.NOT_LOGIN) {
+						LoginUtil login = new LoginUtil(getApplicationContext());
+						login.login(new LoginListener() {
+
+							@Override
+							public void onLoginAfter() {
+								upLoadQuestion(answer, question, location, isVideo, imageUrl, videoUrl);
+							}
+						});
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+				PDialogUtil.cancelDialog();
+				Toast.makeText(getApplicationContext(), "题目上传失败！", Toast.LENGTH_SHORT).show();
+			}
+		}, map);
+		request.setShouldCache(false);
+		mApplicationUtil.getRequestQueue().add(request);
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case TAKE_PICTURE:
+			Intent intent = new Intent(SetQuestionActivity.this, ClipImageActivity.class);
+			intent.putExtra("imagePath", imagepath);
+			startActivityForResult(intent, 10000);
+			break;
+
+		case 10000:
+			if (resultCode == RESULT_OK) {
+				mVideoPath = data.getStringExtra("video");
+				mImagePath = data.getStringExtra("image");
+				System.out.println("mvideo  " + mVideoPath + "   ==mImage==  " + mImagePath);
+				Toast.makeText(getApplicationContext(), "mvideo  " + mVideoPath + "   ==mImage==  " + mImagePath,
+						Toast.LENGTH_SHORT).show();
+				if (mImagePath != null) {
+					Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
+					mImageView.setImageBitmap(bitmap);
+				}
+			}
+			break;
+		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString("answer", mAnswerEdit.getText().toString());
+		outState.putString("question", mQuestionEdit.getText().toString());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		if (savedInstanceState != null) {
+			answer = (String) savedInstanceState.getString("answer");
+			mAnswerEdit.setText("" + answer);
+			question = (String) savedInstanceState.getString("question");
+			mQuestionEdit.setText("" + question);
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.question_layout_back:
+			finish();
+			break;
+		case R.id.question_layout_up:
+
+			answer = mAnswerEdit.getText().toString();
+			question = mQuestionEdit.getText().toString();
+			if ("".equals(question.trim())) {
+				Toast.makeText(SetQuestionActivity.this, "描述不能为空", Toast.LENGTH_SHORT).show();
+
+			} else if ("".equals(answer.trim())) {
+				Toast.makeText(SetQuestionActivity.this, "答案不能为空", Toast.LENGTH_SHORT).show();
+			} else if ("".equals(mImagePath)) {
+				Toast.makeText(SetQuestionActivity.this, "图片不能为空", Toast.LENGTH_SHORT).show();
+
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"mImage  " + mImagePath + " == Video==  " + mVideoPath + "  ==position==  " + position,
+						Toast.LENGTH_SHORT).show();
+
+				PDialogUtil.showDialog(SetQuestionActivity.this, "开始上传...", false);
+				isVideo = false;
+				PublicTools.upload(getApplicationContext(), Integer.parseInt(mShareData.getId()), mImagePath, isVideo,
+						new UploadFinishListener() {
+
+							@Override
+							public void onAfterUpload() {
+								videoUrl = "";
+								imageUrl = PublicTools.getImageUrl(Integer.parseInt(mShareData.getId()), isVideo);
+
+								if ("".equals(mVideoPath)) {
+									upLoadQuestion(answer, question, position, isVideo, imageUrl, videoUrl);
+								} else {
+									isVideo = true;
+									PublicTools.upload(getApplicationContext(), Integer.parseInt(mShareData.getId()),
+											mVideoPath, isVideo, new UploadFinishListener() {
+
+										@Override
+										public void onAfterUpload() {
+											videoUrl = PublicTools.getImageUrl(Integer.parseInt(mShareData.getId()),
+													isVideo);
+											upLoadQuestion(answer, question, position, isVideo, imageUrl, videoUrl);
+
+											Toast.makeText(
+													SetQuestionActivity.this, "" + PublicTools
+															.getImageUrl(Integer.parseInt(mShareData.getId()), isVideo),
+													Toast.LENGTH_SHORT).show();
+											Logs.i("path " + PublicTools
+													.getImageUrl(Integer.parseInt(mShareData.getId()), isVideo));
+
+										}
+									});
+								}
+
+							}
+						});
+			}
+			break;
+		case R.id.question_layout_popup:
+			mPopupWindow = new TabPopupWindow(SetQuestionActivity.this, itemsOnClick);
+			mPopupWindow.showAtLocation(SetQuestionActivity.this.findViewById(R.id.question_layout),
+					Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+			break;
+
+		}
+	}
+
+	public String getLocation(String location, double longitude, double latitude) {
+		StringBuffer str = new StringBuffer();
+		str.append("{ \"location\" : \"" + location + "\",\"position\" : \"{\\n \\\"");
+		str.append("longitude\\\" : \\\"" + longitude + "\\\",\\n ");
+		str.append("\\\"latitude\\\" : \\\"" + latitude + "\\\"\\n}\" }");
+		return str.toString();
+	}
+
+	@Override
+	protected void onDestroy() {
+		MyBDLocation.getInstance(getApplicationContext()).unRegisterLocation();
+		super.onDestroy();
+	}
+
+}

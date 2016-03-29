@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.guess.myview.XListView
+        android:id="@+id/comment_listview"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/comment_edit_layout">
+    </com.guess.myview.XListView>
+
+    <FrameLayout
+        android:id="@+id/comment_edit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/beige" >
+
+            <EditText
+                android:id="@+id/comment_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="60dp"
+                android:paddingLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/login_bg2x"
+                android:focusableInTouchMode="true"
+                android:hint=" " />
+
+            <Button
+                android:id="@+id/comment_send"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/cmark_exchange_btn"
+                android:text="@string/comment_title"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </FrameLayout>
+
+</RelativeLayout>

@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <dimen name="dimension_textview_size">24.6sp</dimen>
+    <dimen name="dimension_textview_width">100dp</dimen>
+    <dimen name="text_size_small">16sp</dimen>
+    <dimen name="text_size_midle">22sp</dimen>
+    <dimen name="bottom_tab_padding_drawable">2.0dip</dimen>
+    <dimen name="bottom_tab_font_size">12.0sp</dimen>
+    <dimen name="bottom_tab_padding_up">5.0dip</dimen>
+    <dimen name="slidingmenu_offset">100dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
+    <dimen name="shadow_width">15dp</dimen>
+    <dimen name="games_title_text">16dp</dimen>
+    <dimen name="games_time_text">12dp</dimen>
+    <dimen name="ui_10_dip">10dip</dimen>
+    <dimen name="sc_daren_item_line">49dip</dimen>
+
+</resources>

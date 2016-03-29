@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige"
+    android:orientation="vertical" >
+    <!-- 导航栏 -->
+
+    <include
+        android:id="@+id/edit_name_rlt_top" 
+        layout="@layout/layout_navigation_bar"/>
+	
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+		android:background="@drawable/login_bg2x"
+        android:layout_marginTop="40dp">
+        <EditText 
+            android:id="@+id/edit_et_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:hint="输入昵称"
+            android:paddingLeft="5dp"
+            android:layout_toLeftOf="@+id/edit_tv_divider"/>
+        <TextView
+            android:id="@+id/edit_tv_divider" 
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:background="#cc6600"
+            android:layout_toLeftOf="@+id/edit_name_random"/>
+        <Button 
+            android:id="@+id/edit_name_random"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:layout_alignParentRight="true"
+            android:layout_margin="4dp"
+            android:text="随机生成"
+            android:textSize="16sp"
+            android:textColor="#cc6600"/>
+    </RelativeLayout>
+    
+    <Button 
+        android:id="@+id/edit_name_save"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/cmark_exchange_btn"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:text="完成"/>
+	
+</LinearLayout>
